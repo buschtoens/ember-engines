@@ -3,6 +3,7 @@ import { getOwner } from '@ember/application';
 import { set, get } from '@ember/object';
 import { typeOf } from '@ember/utils';
 import { assert } from '@ember/debug';
+import { FEATURES } from '@ember/canary-features';
 
 export default LinkComponent.extend({
   didReceiveAttrs() {
@@ -17,7 +18,9 @@ export default LinkComponent.extend({
 
     if (owner.mountPoint) {
       // https://emberjs.github.io/rfcs/0459-angle-bracket-built-in-components.html
-      const routeKey = 'targetRouteName' in this ? 'targetRouteName' : 'route';
+      const routeKey = FEATURES.EMBER_GLIMMER_ANGLE_BRACKET_BUILT_INS
+        ? 'route'
+        : 'targetRouteName';
 
       // Prepend engine mount point to targetRouteName
       this._prefixProperty(owner.mountPoint, routeKey);
